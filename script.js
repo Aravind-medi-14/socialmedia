@@ -21,7 +21,7 @@ function dispUsername(id) {
 }
 
 function showPosts(id) {
-  let str = "";
+  let str = "<h3>My Posts</h3><hr>";
   fetch(`https://jsonplaceholder.typicode.com/posts/?userId=${id}`)
     .then((res) => res.json())
     .then((data) => {
@@ -39,7 +39,7 @@ function showPosts(id) {
 }
 
 function showAlbum(userId) {
-  let str = "";
+  let str = "<h3>My Albums</h3> <hr>";
   fetch(`https://jsonplaceholder.typicode.com/albums/?userId=${userId}`)
     .then((res) => res.json())
     .then((data) => {
@@ -57,7 +57,7 @@ function showAlbum(userId) {
 }
 
 function showProfile(id) {
-  let str = "";
+  let str = "<h3>My Profile</h3> <hr>";
   fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
     .then((res) => res.json())
     .then((data) => {
@@ -66,6 +66,28 @@ function showProfile(id) {
             <p>UserName:${data.username}</p>
             <p>Email:${data.email}</p>
            </div>`;
+
+      content.innerHTML = str;
+    })
+    .catch((err) => console.log(err));
+}
+
+function showTodo(id) {
+  let str = "<h3>My Todo</h3> <hr>";
+  fetch(`https://jsonplaceholder.typicode.com/todos/?userId=${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      data &&
+        data.map((val) => {
+          str += `<div>
+            
+            <div><input type='checkbox' ${val.completed && "checked"}>title:${
+            val.title
+          }</div>
+            <p>Completed:${val.completed}</p>
+            
+           </div>`;
+        });
 
       content.innerHTML = str;
     })
@@ -88,6 +110,7 @@ function showHome() {
           <p onclick='showPosts(${userId})' style='cursor:pointer;'> Home</p>
           <p onclick='showAlbum(${userId})' style='cursor:pointer;'>Album</p>
           <p onclick='showProfile(${userId})' style='cursor:pointer;'>Profile</p>
+          <p onclick='showTodo(${userId})' style='cursor:pointer;'>To do</p>
           <p onclick='showLogin()' style='cursor:pointer;'>Logout</p>
           </div>
           <div class='p-2' id='content'></div>
