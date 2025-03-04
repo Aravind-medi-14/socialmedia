@@ -6,6 +6,20 @@ function showLogin() {
     .catch((err) => console.log(err));
 }
 
+function dispUsername(id) {
+  let str = "";
+  fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      str += `<div>
+            <b>${data.name}</b>
+           </div>`;
+
+      username.innerHTML = str;
+    })
+    .catch((err) => console.log(err));
+}
+
 function showPosts(id) {
   let str = "";
   fetch(`https://jsonplaceholder.typicode.com/posts/?userId=${id}`)
@@ -21,6 +35,7 @@ function showPosts(id) {
       content.innerHTML = str;
     })
     .catch((err) => console.log(err));
+  dispUsername(id);
 }
 
 function showAlbum(userId) {
@@ -41,6 +56,22 @@ function showAlbum(userId) {
     .catch((err) => console.log(err));
 }
 
+function showProfile(id) {
+  let str = "";
+  fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      str += `<div>
+            <b>Name:${data.name}</b>
+            <p>UserName:${data.username}</p>
+            <p>Email:${data.email}</p>
+           </div>`;
+
+      content.innerHTML = str;
+    })
+    .catch((err) => console.log(err));
+}
+
 function showHome() {
   let userId = selUser.value;
   let str = `
@@ -56,6 +87,7 @@ function showHome() {
           <div class='p-2'>
           <p onclick='showPosts(${userId})' style='cursor:pointer;'> Home</p>
           <p onclick='showAlbum(${userId})' style='cursor:pointer;'>Album</p>
+          <p onclick='showProfile(${userId})' style='cursor:pointer;'>Profile</p>
           <p onclick='showLogin()' style='cursor:pointer;'>Logout</p>
           </div>
           <div class='p-2' id='content'></div>
